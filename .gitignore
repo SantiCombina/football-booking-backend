@@ -1,0 +1,31 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database files (para SQLite, si llegas a usarlo)
+*.sqlite
+*.sqlite3
+
+# Configuración de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de IDE
+.vscode/
+.idea/
+
+# Directorio de las migraciones de Sequelize (opcional, según el flujo de trabajo)
+migrations/
+
+# Archivos de construcción
+dist/
+build/
