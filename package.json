@@ -10,9 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "config": "^3.3.12",
     "express": "^4.21.1",
     "mysql2": "^3.11.3",
-    "sequelize": "^6.37.5",
+    "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
     "sequelize-cli": "^6.6.2"
   }
 }
