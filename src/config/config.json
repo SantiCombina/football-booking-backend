@@ -2,13 +2,13 @@
   "development": {
     "username": "root",
     "password": "1234",
-    "database": "football_booking",
+    "database": "football_booking_dev",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "test",
-    "password": "test",
+    "password": "1234",
     "database": "nombre_base_de_datos_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
