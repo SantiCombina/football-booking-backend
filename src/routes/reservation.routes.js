@@ -1,12 +1,13 @@
 const router = require("express").Router();
-const Reservation = require("../models/reservation.model");
-const Field = require("../models/field.model");
-const User = require("../models/user.model");
+const { Reservations, Users, Fields } = require("../../models");
 
 router.get("/reservations", async (req, res) => {
   try {
-    const reservations = await Reservation.findAll({
-      include: [User, Field],
+    const reservations = await Reservations.findAll({
+      include: [
+        { model: Users, as: "user" },
+        { model: Fields, as: "field" },
+      ],
     });
     res.json(reservations);
   } catch (error) {
@@ -16,9 +17,12 @@ router.get("/reservations", async (req, res) => {
 
 router.get("/reservations/:id", async (req, res) => {
   try {
-    const reservation = await Reservation.findOne({
+    const reservation = await Reservations.findOne({
       where: { id: req.params.id },
-      include: [User, Field],
+      include: [
+        { model: Users, as: "user" },
+        { model: Fields, as: "field" },
+      ],
     });
     if (reservation) {
       res.json(reservation);
@@ -32,7 +36,7 @@ router.get("/reservations/:id", async (req, res) => {
 
 router.post("/reservations", async (req, res) => {
   try {
-    const newReservation = await Reservation.create(req.body);
+    const newReservation = await Reservations.create(req.body);
     res.status(201).json(newReservation);
   } catch (error) {
     res.status(400).json({ message: error.message });

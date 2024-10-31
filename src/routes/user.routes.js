@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const User = require("../models/user.model");
+const { Users } = require("../../models");
 
 router.get("/users", async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await Users.findAll();
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -12,7 +12,7 @@ router.get("/users", async (req, res) => {
 
 router.get("/users/:id", async (req, res) => {
   try {
-    const user = await User.findOne({ where: { id: req.params.id } });
+    const user = await Users.findOne({ where: { id: req.params.id } });
     if (user) {
       res.json(user);
     } else {
@@ -24,8 +24,9 @@ router.get("/users/:id", async (req, res) => {
 });
 
 router.post("/users", async (req, res) => {
+  console.log(req.body);
   try {
-    const newUser = await User.create(req.body);
+    const newUser = await Users.create(req.body);
     res.status(201).json(newUser);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -34,7 +35,9 @@ router.post("/users", async (req, res) => {
 
 router.put("/users/:id", async (req, res) => {
   try {
-    const updatedUser = await User.update(req.body, { where: { id: req.params.id } });
+    const updatedUser = await Users.update(req.body, {
+      where: { id: req.params.id },
+    });
     if (updatedUser[0]) {
       res.json({ message: "Usuario actualizado" });
     } else {
@@ -47,7 +50,7 @@ router.put("/users/:id", async (req, res) => {
 
 router.delete("/users/:id", async (req, res) => {
   try {
-    const rowsDeleted = await User.destroy({ where: { id: req.params.id } });
+    const rowsDeleted = await Users.destroy({ where: { id: req.params.id } });
     if (rowsDeleted) {
       res.json({ message: "Usuario eliminado" });
     } else {

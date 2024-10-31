@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const Field = require("../models/field.model");
+const { Fields } = require("../../models");
 
 router.get("/fields", async (req, res) => {
   try {
-    const fields = await Field.findAll();
+    const fields = await Fields.findAll();
     res.json(fields);
   } catch (error) {
     res.status(500).json({
@@ -14,7 +14,7 @@ router.get("/fields", async (req, res) => {
 
 router.get("/fields/:id", async (req, res) => {
   try {
-    const field = await Field.findOne({ where: { id: req.params.id } });
+    const field = await Fields.findOne({ where: { id: req.params.id } });
     if (field) {
       res.json(field);
     } else {
@@ -27,7 +27,7 @@ router.get("/fields/:id", async (req, res) => {
 
 router.post("/fields", async (req, res) => {
   try {
-    const newField = await Field.create(req.body);
+    const newField = await Fields.create(req.body);
     res.status(201).json(newField);
   } catch (error) {
     res.status(400).json({ message: error.message });

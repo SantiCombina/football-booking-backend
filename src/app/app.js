@@ -4,6 +4,8 @@ const fieldRoutes = require("../routes/field.routes");
 const reservationRoutes = require("../routes/reservation.routes");
 const app = express();
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
