@@ -1,18 +1,7 @@
 const router = require("express").Router();
 const { Fields } = require("../../models");
 
-router.get("/fields", async (req, res) => {
-  try {
-    const fields = await Fields.findAll();
-    res.json(fields);
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-});
-
-router.get("/fields/:id", async (req, res) => {
+router.get("/field/:id", async (req, res) => {
   try {
     const field = await Fields.findOne({ where: { id: req.params.id } });
     if (field) {
@@ -24,6 +13,28 @@ router.get("/fields/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+router.get("/fields", async (req, res) => {
+  try {
+    console.log("nombrecito apra identificalroas", req.query)
+    const {id, name, location } = req.query;
+    const filters = {};
+    if (id) filters.id = id;
+    if (name) filters.name = name;
+    if (location) filters.location = location;
+
+    const fields = await Fields.findAll({ where: filters });
+
+    if (fields.length > 0) {
+      res.json(fields);
+    } else {
+      res.status(404).json({ error: "No se encontraron canchas con esos filtros" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 router.post("/fields", async (req, res) => {
   try {
