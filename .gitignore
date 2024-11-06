@@ -27,9 +27,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Directorio de las migraciones de Sequelize (opcional, según el flujo de trabajo)
-migrations/
-
 # Archivos de construcción
 dist/
 build/
