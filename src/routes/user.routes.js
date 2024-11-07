@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { Users } = require("../../models");
 
 const authMiddleware = require("../middleware/auth-middleware");
-const SECRET_KEY = process.env.SECRET_KEY
+const SECRET_KEY = process.env.SECRET_KEY;
 
 router.get("/users", async (req, res) => {
   try {
@@ -30,7 +30,11 @@ router.post("/signup", async (req, res) => {
     const { name, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await Users.create({ name, email, password: hashedPassword });
+    const newUser = await Users.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
     res.status(201).json(newUser);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -42,13 +46,17 @@ router.post("/signin", async (req, res) => {
 
   try {
     const user = await Users.findOne({ where: { email } });
-    if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+    if (!user)
+      return res.status(404).json({ message: "Usuario no encontrado" });
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) return res.status(401).json({ message: "Contraseña incorrecta" });
+    if (!isPasswordValid)
+      return res.status(401).json({ message: "Contraseña incorrecta" });
 
-    const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: "1h" });
-    res.json({ token });
+    const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
+    res.json({ token, userId: user.id });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
