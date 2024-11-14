@@ -5,7 +5,7 @@ const cloudinary = require("./cloudinary-config");
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "football_fields", // Nombre de la carpeta en Cloudinary
+    folder: "football_fields",
     allowed_formats: ["jpg", "png", "jpeg"],
   },
 });

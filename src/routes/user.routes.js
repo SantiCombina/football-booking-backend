@@ -29,13 +29,19 @@ router.post("/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const newUser = await Users.create({
       name,
       email,
       password: hashedPassword,
     });
-    res.status(201).json(newUser);
+    const token = jwt.sign(
+      { id: newUser.id, email: newUser.email },
+      SECRET_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
+    res.status(201).json({ token, userId: newUser.id });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -43,16 +49,13 @@ router.post("/signup", async (req, res) => {
 
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const user = await Users.findOne({ where: { email } });
     if (!user)
       return res.status(404).json({ message: "Usuario no encontrado" });
-
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid)
       return res.status(401).json({ message: "Contraseña incorrecta" });
-
     const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, {
       expiresIn: "1h",
     });

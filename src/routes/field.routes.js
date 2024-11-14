@@ -16,25 +16,23 @@ router.get("/field/:id", async (req, res) => {
 
 router.get("/fields", async (req, res) => {
   try {
-    console.log("nombrecito apra identificalroas", req.query)
-    const {id, name, location } = req.query;
+    const { id, name, location } = req.query;
     const filters = {};
     if (id) filters.id = id;
     if (name) filters.name = name;
     if (location) filters.location = location;
-
     const fields = await Fields.findAll({ where: filters });
-
     if (fields.length > 0) {
       res.json(fields);
     } else {
-      res.status(404).json({ error: "No se encontraron canchas con esos filtros" });
+      res
+        .status(404)
+        .json({ error: "No se encontraron canchas con esos filtros" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
-
 
 router.post("/fields", async (req, res) => {
   try {

@@ -38,18 +38,17 @@ router.post("/reservation/:fieldId", async (req, res) => {
   try {
     const { fieldId } = req.params;
     const { date, startTime, id_user } = req.body;
-
     if (!date || !startTime || !id_user || !fieldId) {
-      return res.status(400).json({ message: "Faltan parámetros para crear la reserva" });
+      return res
+        .status(400)
+        .json({ message: "Faltan parámetros para crear la reserva" });
     }
-
     const newReservation = await Reservations.create({
       date,
       startTime,
       id_user,
       id_field: fieldId,
     });
-
     res.status(201).json(newReservation);
   } catch (error) {
     console.error("Error al crear la reserva:", error);
